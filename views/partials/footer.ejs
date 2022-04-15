@@ -1,0 +1,65 @@
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+    crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        var socket = io();
+        const add_form = document.querySelector('#add_form');
+        if (add_form) {
+            add_form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const todo = document.querySelector('#add_form input[name=todo]').value;
+                socket.emit('add_todo', { todo: todo });
+            });
+            socket.on('added_todo', function (data) {
+                const todo_list = document.querySelector('#todo_list');
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.classList.add(`li-${data.id}`);
+                li.innerHTML = `<span id="${data.id}">${data.todo}<span><a tag="${data.id}" class="delete btn btn-danger btn-sm ml-3">Delete</a><a href="/edit/todo/${data.id}" class="btn btn-info btn-sm ml-3">Edit</a>`;
+                todo_list.appendChild(li)
+                document.querySelectorAll(".delete").forEach(elem => elem.addEventListener("click",
+                (e) => {
+                    e.preventDefault();
+                    const id = e.target.getAttribute("tag");
+                    socket.emit("delete_todo", { id: id });
+                }))
+                let inp = document.querySelector('#todo-text')
+                inp.value = '';
+            });
+            document.querySelectorAll(".delete").forEach(elem => elem.addEventListener("click",
+            (e) => {
+                e.preventDefault();
+                const id = e.target.getAttribute("tag");
+                socket.emit("delete_todo", { id: id });
+            }));
+            socket.on('deleted_todo', function (data) {
+                const li = document.querySelector(`.li-${data.id}`);
+                li.remove();
+            });
+            socket.on('edited_todo', function (data) {
+                const li = document.querySelector(`.li-${data.id}`);
+                li.innerHTML = `<span id="${data.id}">${data.todo}<span><a tag="${data.id}" class="delete btn btn-danger btn-sm ml-3">Delete</a><a href="/edit/todo/${data.id}" class="btn btn-info btn-sm ml-3">Edit</a>`;
+            });
+        } else {
+            const edit_form = document.querySelector('#edit_form');
+            edit_form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const todo = document.querySelector('#edit_form input[name=todo]').value;
+                const id = document.querySelector('#edit_form input[name=id]').value;
+                socket.emit('edit_todo', { todo: todo, id: id });
+                document.location.href = '/';
+            });
+        }
+    });
+</script>
+
+</html>

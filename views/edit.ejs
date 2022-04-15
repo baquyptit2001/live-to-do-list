@@ -1,0 +1,23 @@
+<%- include('partials/header.ejs') %>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Active</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form id="edit_form" method="post">
+                    <div class="form-group">
+                        <label for="">To do:</label>
+                        <input type="text" value="<%= todo.todo %>" name="todo" class="form-control">
+                        <input type="hidden" value="<%= todo._id %>" name="id" class="form-control">
+                        <small id="emailHelp" class="form-text text-muted">What are you going to do?</small>
+                    </div>
+                    <button type="submit" value="edit_todo" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<%- include('partials/footer.ejs') %>

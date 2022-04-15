@@ -1,0 +1,27 @@
+<%- include('partials/header.ejs') %>
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/">Active</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form action="/add/todo" method="post" id="add_form">
+                    <div class="form-group">
+                        <label for="">To do:</label>
+                        <input type="text" name="todo" class="form-control" id="todo-text" required>
+                        <small id="emailHelp" class="form-text text-muted">What are you going to do?</small>
+                    </div>
+                    <button type="submit" value="add_todo" class="btn btn-primary">Submit</button>
+                </form>
+                <ul class="list-group my-5" id="todo_list">
+                    <% todos.forEach(todo => { %>
+                        <li class="list-group-item li-<%= todo._id %>"><span id="<%=todo._id%>"><%= todo.todo %></span><a tag="<%= todo._id %>" class="delete btn btn-danger btn-sm ml-3">Delete</a><a href="/edit/todo/<%= todo._id %>" class="btn btn-info btn-sm ml-3">Edit</a></li>
+                    <% }); %>
+                </ul>
+            </div>
+        </div>
+    </div>
+<%- include('partials/footer.ejs') %>
