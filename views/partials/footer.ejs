@@ -58,6 +58,12 @@
                 socket.emit('edit_todo', { todo: todo, id: id });
                 document.location.href = '/';
             });
+            socket.on('deleted_edting', function (data) {
+                const id = document.querySelector('#edit_form input[name=id]').value;
+                if (id == data.id) {
+                    document.location.href = '/';
+                }
+            });
         }
     });
 </script>

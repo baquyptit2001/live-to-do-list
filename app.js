@@ -51,6 +51,9 @@ io.on('connection', (socket) => {
                 io.emit('deleted_todo', {
                     id: id.id
                 })
+                io.emit('deleted_edting', {
+                    id: id.id
+                })
             })
             .catch(err => {
                 console.log(err);
@@ -74,5 +77,5 @@ io.on('connection', (socket) => {
             });
     })
 });
-var port = process.env.PORT || 80
+var port = process.env.PORT || 3000
 server.listen(port, () => console.log(`Listening on port ${port}`));
