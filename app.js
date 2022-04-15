@@ -74,5 +74,5 @@ io.on('connection', (socket) => {
             });
     })
 });
-
-server.listen(3000, () => console.log('Server started on port 3000'));
+var port = process.env.PORT || 80
+server.listen(port, () => console.log(`Listening on port ${port}`));
