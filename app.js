@@ -9,7 +9,7 @@ const {
 const io = new Server(server);
 const Todo = require('./models/Todo');
 
-mongoose.connect('mongodb://localhost/todo-list', {
+mongoose.connect('mongodb+srv://baquy201:baquy8519@Cluster0.whpfq.mongodb.net/Cluster0?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
